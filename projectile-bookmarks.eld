@@ -1,0 +1,1 @@
+("~/Dropbox/org/roam/" "~/Dropbox/OrgWork/" "~/Dropbox/org/MediaDB/" "~/Dropbox/org/" "~/Dropbox/doomemacs/")
