@@ -7,29 +7,11 @@
 ;; Created: outubro 10, 2021
 ;; Modified: outubro 10, 2021
 ;; Version: 0.0.1
-;; Keywords: Symbol’s value as variable is void: finder-known-keywords
-;; Homepage: https://github.com/orcsbr/init
+;; Keywords:
+;; Homepage: https://github.com/orcsbr/efs.d
 ;; Package-Requires: ((emacs "24.3"))
 ;;
 ;; This file is not part of GNU Emacs.
-;;
-;;; Commentary:
-;;
-;;  Description
-;;
-;;; Code:
-
-;; -*- lexical-binding: t; -*-
-
-;; The default is 800 kilobytes.  Measured in bytes.
-;; (setq gc-cons-threshold (* 50 1000 1000))
-
-;; Profile emacs startup
-;; (add-hook 'emacs-startup-hook
-;;           (lambda ()
-;;             (message "*** Emacs loaded in %s seconds with %d garbage collections."
-;;                      (emacs-init-time "%.2f")
-;;                      gcs-done)))
 
 ;; Basic Configuration
 
@@ -40,24 +22,42 @@
 
 (server-start)
 
+;; Initialize package sources
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			 ("elpa" . "https://elpa.gnu.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")))
+
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
+
+;; Initialize use-package on non-Linux platforms
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
 (require 'org)
 (require 'org-protocol)
 (require 'org-capture)
+(require 'org-id)
 ;;(require 'org-web-tools)
 ;;(require 'helm-config)
-(require 'org-id)
 ;;(require 'real-auto-save)
 ;;(require 'key-chord)
 ;;(require 'transpose-frame)
 
 (setq inhibit-startup-message t)
 
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-(set-fringe-mode 10)
-(menu-bar-mode -1)
-(setq visible-bell t)
+;; (scroll-bar-mode -1) ; Disable visible scrollbar
+(tool-bar-mode -1)      ; Disable the toolbar
+(tooltip-mode -1)       ; Disable tooltips
+(set-fringe-mode 10)    ; Give some breathing room
+;;(menu-bar-mode -1)    ; Disable the menubar
+(setq visible-bell t)   ; Setup the visible bell
 
 (column-number-mode)
 (global-display-line-numbers-mode t)
@@ -70,7 +70,7 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 150)
+(set-face-attribute 'default nil :font "Fira Code" :height 180)
 
 (use-package all-the-icons)
 
@@ -105,7 +105,7 @@
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1)
-  (setq doom-modeline-height 20))
+  :custom (doom-modeline-height 10))
 
 ;; Doom Themes
 
@@ -113,24 +113,6 @@
   :init (load-theme 'doom-palenight t)
 
 (doom-themes-visual-bell-config)
-
-;; Initialize package sources
-(require 'package)
-
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			 ("elpa" . "https://elpa.gnu.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")))
-
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
-
-;; Initialize use-package on non-Linux platforms
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(require 'use-package)
-(setq use-package-always-ensure t)
 
 ;; Resize windows, Windmove and other tweaks
 
@@ -478,8 +460,7 @@
 
   (org-babel-do-load-languages
     'org-babel-load-languages
-    '((emacs-lisp . t)
-      (ledger . t)))
+    '((emacs-lisp . t)))
 
   (push '("conf-unix" . conf-unix) org-src-lang-modes)
 

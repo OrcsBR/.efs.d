@@ -1,1 +1,1 @@
-("~/Dropbox/org/roam/" "~/Dropbox/OrgWork/" "~/Dropbox/org/MediaDB/" "~/Dropbox/org/" "~/Dropbox/doomemacs/")
+("~/Dropbox/org/roam/" "~/Dropbox/org/MediaDB/" "~/Dropbox/org/" "~/Dropbox/.efs.d/" "~/Dropbox/42sp/42_gnl/" "~/Dropbox/doomemacs/")
